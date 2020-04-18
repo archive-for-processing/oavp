@@ -1170,7 +1170,7 @@ public class OavpEditor {
   }
 
   public void drawCreateMenu() {
-    palette.reset(palette.flat.black, palette.flat.white, 2);
+    // palette.reset(palette.flat.black, palette.flat.white, 2);
 
     for (int i = 0; i < OBJECT_LIST.length; i++) {
       boolean isWithinSelectionArea = (this.createModeSelectionIndex == i);

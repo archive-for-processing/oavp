@@ -48,6 +48,11 @@ boolean loaded = false;
 boolean isInitializing = true;
 ControlP5 cp5;
 DashedLines dash;
+PGraphics layer;
+PGraphics editorLayer;
+
+// TODO: Explore add shaders to entire layer...
+// PShader blur;
 
 void setup() {
   context = this;
@@ -59,11 +64,18 @@ void setup() {
   // size(750, 750, P3D);
   // DISPLAY_SETTINGS_END
 
+  // TODO: Explore add shaders to entire layer...
+  // blur = loadShader("blur.glsl");
+
+  layer = createGraphics(width, height, P3D);
+  editorLayer = createGraphics(width, height, P3D);
+
   // Frame Setup
   frameRate(60);
   surface.setTitle("oavp");
 
   cp5 = new ControlP5(this);
+  cp5.setAutoDraw(false);
   setupEditorGui();
 
   dash = new DashedLines(this);
@@ -136,11 +148,20 @@ synchronized void draw() {
         editor.handleKeyInputs();
         updateHelpers();
         updateEntities();
+        drawSketchDefaults();
+
+        layer.beginDraw();
         if (!editor.isCreateMode) {
           drawSketchDefaults();
           drawSketch();
           objects.draw();
         }
+        // TODO: Explore add shaders to entire layer...
+        // layer.filter(blur);
+        layer.endDraw();
+        image(layer, 0, 0);
+
+        cp5.draw();
         editor.drawIfEditMode();
       }
     } catch (Exception e) {
